@@ -2,76 +2,128 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
-    <title>Let's Go! r/Place!</title>
-    <script type="application/javascript">
-    </script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+	<title>Let's Go! r/Place!</title>
+	<script type="application/javascript">
+		var colorMap = {};
+		colorMap[1] = "#00FFFF";
+		colorMap[2] = "#FFD700";
+		colorMap[3] = "#FF0000";
+		var colorChoose = "#000000";
+		var colorChooseIdx = 0;
+
+		var submitQueue = new Array();
+
+		function mOver(t) {
+			h.innerHTML = "on:" + t.id;
+			t.bgColor = colorChoose;
+		}
+
+		function mOut(t) {
+			h.innerHTML = "on:" + t.id;
+			var ids = t.id.split("_");
+			t.bgColor = color[Number(ids[0])][Number(ids[1])]
+		}
+
+		function mDown(t) {
+			h.innerHTML = "on:" + t.id;
+			var ids = t.id.split("_");
+			var x = Number(ids[0]);
+			var y = Number(ids[1]);
+			color[x][y] = colorChoose;
+			t.bgColor = colorChoose;
+
+			var point = new Object();
+			point.x = x;
+			point.y = y;
+			point.c = 1;
+			submitQueue.push(point);
+		}
+
+		function onChooseColor(colorIndex) {
+			if (colorChooseIdx > 0) {
+				var old = document.getElementById("color_" + colorChooseIdx);
+				old.style = old.getAttribute("style").replace("solid black", "solid white");
+			}
+			var n = document.getElementById("color_" + colorIndex);
+			n.style = n.getAttribute("style").replace("solid white", "solid black");
+			colorChooseIdx = colorIndex;
+			colorChoose = colorMap[colorIndex];
+		}
+
+		function onClear() {
+			alert("TODO onClear()");
+		}
+
+		function onSubmit() {
+			alert("Submit points:" + submitQueue.length);
+		}
+
+		function onRefresh() {
+			alert("TODO onRefresh()");
+		}
+	</script>
 </head>
 
 <body>
 
 <h5>Let's Go! r/Pixels!</h5>
 
-
-<div style="border: 1px solid;width: 512px;height: 512px;">
-    <table id="tab" width="512px" height="512px" cellspacing="0">
-    </table>
+<div style="display: flex;">
+	<div style="border: 1px solid;width: 512px;height: 512px;">
+		<table id="tab" width="512px" height="512px" cellspacing="0">
+		</table>
+	</div>
+	<div style="margin-left: 10px">
+		颜色：<br/>
+		<div id="color_1" style="border: 2px solid white;width: 60px;height: 20px;background-color: aqua" value="1"
+			 onclick="onChooseColor(1)"></div>
+		<div id="color_2" style="border: 2px solid white;width: 60px;height: 20px;background-color: gold" value="2"
+			 onclick="onChooseColor(2)"></div>
+		<div id="color_3" style="border: 2px solid white;width: 60px;height: 20px;background-color: red" value="3"
+			 onclick="onChooseColor(3)"></div>
+		<table>
+			<tr>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div>
+	<input type="button" value="清除" onclick="onClear()">
+	<input type="button" value="提交" onclick="onSubmit()">
+	<input type="button" value="刷新" onclick="onRefresh()">
 </div>
 <h3 id="h">on:</h3>
 
 <script type="application/javascript">
-    var h = document.getElementById("h")
-    var color = new Array();
+	var h = document.getElementById("h")
+	var color = new Array();
 
-    function mOver(t) {
-        h.innerHTML = "on:" + t.id;
-        t.bgColor = "#000000";
-    }
-
-    function mOut(t) {
-        h.innerHTML = "on:" + t.id;
-        var ids = t.id.split("_");
-        t.bgColor = color[Number(ids[0])][Number(ids[1])]
-    }
-
-    function mDown(t) {
-        h.innerHTML = "on:" + t.id;
-        var ids = t.id.split("_");
-        color[Number(ids[0])][Number(ids[1])] = "#000000";
-        t.bgColor = "#000000";
-    }
-
-    for (var i = 0; i < 128; i++) {
-        color[i] = new Array();
-        var tr = document.createElement("tr");
-        for (var j = 0; j < 128; j++) {
-            var td = document.createElement("td");
-            td.bgColor = "#ffffff";
-            color[i][j] = td.bgColor;
-            td.id = i + "_" + j;
-            td.onmouseover = function () {
-                mOver(this);
-            };
-            td.onmouseout = function () {
-                mOut(this);
-            };
-            td.onmousedown = function () {
-                mDown(this);
-            };
-            tr.appendChild(td);
-        }
-        document.getElementById("tab").appendChild(tr);
-    }
+	var tab = document.getElementById("tab");
+	for (var i = 0; i < 128; i++) {
+		color[i] = new Array();
+		var tr = document.createElement("tr");
+		for (var j = 0; j < 128; j++) {
+			var td = document.createElement("td");
+			td.bgColor = "#ffffff";
+			color[i][j] = td.bgColor;
+			td.id = i + "_" + j;
+			td.onmouseover = function () {
+				mOver(this);
+			};
+			td.onmouseout = function () {
+				mOut(this);
+			};
+			td.onmousedown = function () {
+				mDown(this);
+			};
+			tr.appendChild(td);
+		}
+		tab.appendChild(tr);
+	}
 </script>
 
 </body>
 
 </html>
-// var c = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
-// td.bgColor = "#" +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
-//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)];
