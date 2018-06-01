@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+    <title>Let's Go! r/Place!</title>
+    <script type="application/javascript">
+    </script>
+</head>
+
+<body>
+
+<h5>Let's Go! r/Pixels!</h5>
+
+
+<div style="border: 1px solid;width: 512px;height: 512px;">
+    <table id="tab" width="512px" height="512px" cellspacing="0">
+    </table>
+</div>
+<h3 id="h">on:</h3>
+
+<script type="application/javascript">
+    var h = document.getElementById("h")
+    var color = new Array();
+
+    function mOver(t) {
+        h.innerHTML = "on:" + t.id;
+        t.bgColor = "#000000";
+    }
+
+    function mOut(t) {
+        h.innerHTML = "on:" + t.id;
+        var ids = t.id.split("_");
+        t.bgColor = color[Number(ids[0])][Number(ids[1])]
+    }
+
+    function mDown(t) {
+        h.innerHTML = "on:" + t.id;
+        var ids = t.id.split("_");
+        color[Number(ids[0])][Number(ids[1])] = "#000000";
+        t.bgColor = "#000000";
+    }
+
+    for (var i = 0; i < 128; i++) {
+        color[i] = new Array();
+        var tr = document.createElement("tr");
+        for (var j = 0; j < 128; j++) {
+            var td = document.createElement("td");
+            td.bgColor = "#ffffff";
+            color[i][j] = td.bgColor;
+            td.id = i + "_" + j;
+            td.onmouseover = function () {
+                mOver(this);
+            };
+            td.onmouseout = function () {
+                mOut(this);
+            };
+            td.onmousedown = function () {
+                mDown(this);
+            };
+            tr.appendChild(td);
+        }
+        document.getElementById("tab").appendChild(tr);
+    }
+</script>
+
+</body>
+
+</html>
+// var c = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
+// td.bgColor = "#" +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)] +
+//         c[Math.floor(Math.random() * 16)] + c[Math.floor(Math.random() * 16)];
