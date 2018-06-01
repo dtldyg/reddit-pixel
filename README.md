@@ -1,1 +1,3 @@
 # reddit-pixel
+
+init
