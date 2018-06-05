@@ -56,7 +56,7 @@ func init() {
 	//6 216
 	//7 343
 	//8 512
-	dp := 2
+	dp := 3
 	d := 255 / (dp - 1)
 	colorList = make([]rgba, dp*dp*dp, dp*dp*dp)
 	for r := 0; r < dp; r++ {
